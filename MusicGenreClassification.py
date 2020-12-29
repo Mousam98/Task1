@@ -80,39 +80,7 @@ def loadData(DATASET_PATH):
     return mfcc_arr, label_arr
                 
                 
-if __name__ == '__main__' :
-    num_segments = 10
-    mfcc(DATASET_PATH, JSON_PATH, num_segments)  
 
-    # load the data              
-    inputs, targets = loadData('data.json')
-    
-    #split the data
-    X_train, X_test, y_train, y_test = train_test_split(inputs, targets, test_size = 0.3, random_state = 0)
-    
-    from tensorflow.keras.models import Sequential
-    from tensorflow.keras.layers import Flatten, Dense, Dropout
-    import tensorflow as tf
-    # BUILD A NEURAL NETWORK 
-    model = Sequential()
-    model.add(Flatten(input_shape = (inputs.shape[1], inputs.shape[2])))
-        
-    model.add(Dense(units = 512, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
-    model.add(Dense(units = 128, activation='relu',kernel_regularizer=tf.keras.regularizers.l2(0.001)))
-    model.add(Dropout(0.3))
-    model.add(Dense(units = 512, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.001)))
-    
-    # adding output layer
-    model.add(Dense(units = 10, activation='softmax'))
-        
-          
-    # compile the network
-    model.compile(optimizer = 'adam', loss = 'sparse_categorical_crossentropy', metrics = ['acc'])
-    
-    # run the model
-    model.fit(X_train, y_train, batch_size=32, epochs = 70, validation_data=(X_test, y_test))
-    model.summary()
-    
     
             
             
